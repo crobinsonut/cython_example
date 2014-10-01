@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "point.h"
 
-
 Point * point_new(double x, double y){
   Point * point = malloc(sizeof(Point));
   point->x = x;
