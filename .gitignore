@@ -1,4 +1,6 @@
 *.so
 *.o
+*.pyd
+*.html
 build/
 point.c
