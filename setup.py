@@ -5,7 +5,7 @@ from Cython.Build import cythonize
 setup (
     ext_modules = cythonize([
         Extension("point", ["point.pyx"],
-                  include_dirs=['C:\\users\\crrobin3\\cython_example'],
+                  include_dirs=['.'],
                   libraries=['point'],
-                  library_dirs=['c:\\Users\\crrobin3\\cython_example'])])
+                  library_dirs=['.'])])
 )

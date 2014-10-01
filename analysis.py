@@ -21,7 +21,6 @@ class Unscale(Component):
     point = Instance(pt.Point, iotype='in')
 
     def execute(self):
-        print str(self.point)
         self.point = pt.scale(0.5, self.point)
 
 class Analysis(Assembly):
