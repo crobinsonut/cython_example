@@ -1,7 +1,8 @@
 cimport cpoint
 
 cdef class Point:
-
+    cdef cpoint.Point * _point
+    
     def __cinit__(self):
         self._point = cpoint.point_new(0, 0)
 
@@ -18,13 +19,6 @@ cdef class Point:
         new_point._point = point
 
         return new_point
-
-    property _point:
-        def __get__(self):
-            return self._point
-
-        def __set__(self, value):
-            self.__point = value
 
     property x:
         def __get__(self):
