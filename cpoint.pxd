@@ -5,4 +5,4 @@ cdef extern from "point.h":
 
     Point * point_new(double x, double y)
     void point_free(Point * point)
-    Point * x2(Point * point)
+    Point * scale(double s, Point * point)

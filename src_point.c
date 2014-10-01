@@ -1,3 +1,4 @@
+#include <math.h>
 #include <stdlib.h>
 #include "point.h"
 
@@ -14,6 +15,6 @@ void point_free(Point * point){
   free(point);
 }
 
-Point * x2(Point * point){
-  return point_new(point->x * 2, point->y * 2);
+Point * scale(double s, Point * point){
+    return point_new(point->x * s, point->y * s);
 }

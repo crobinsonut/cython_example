@@ -9,6 +9,9 @@ cdef class Point:
     def __dealloc__(self):
         cpoint.point_free(self._point)
 
+    def __str__(self):
+        return "<x={x}, y={y}>".format(x=self.x, y=self.y)
+
     property x:
         def __get__(self):
             return self._point.x
@@ -23,5 +26,9 @@ cdef class Point:
         def __set__(self, value):
             self._point.y = value
 
-def x2(point):
-    return Point(point.x * 2, point.y * 2)
+cdef cpoint.Point * c_scale(s, Point point):
+    return cpoint.scale(s, point._point)
+
+def scale(s, point):
+    cdef cpoint.Point * p = c_scale(s, point)
+    return Point(p.x, p.y)
