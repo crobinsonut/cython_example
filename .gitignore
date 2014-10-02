@@ -3,5 +3,6 @@
 *.pyd
 *.html
 *.dll
+*.exe
 build/
 point.c

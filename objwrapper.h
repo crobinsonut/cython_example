@@ -1,31 +1,19 @@
 #ifndef __OBJWRAPPER_H
 #define __OBJWRAPPER_H
 
-// object wrapper type
-typedef struct objwrapper_s objwrapper_t;
+typedef struct
+{
+    unsigned int retainCount;
+    void       * data;
+}
+MemoryObject;
 
-// object wrapper destructor type
-typedef void (*objwrapper_destructor_t)(void *a_data);
+void * Alloc( size_t size );
 
-// creates an object wrapper
-objwrapper_t *objwrapper_create(
-    void *a_data,
-    objwrapper_destructor_t a_destructor
-);
+void Retain( void * ptr );
 
-// returns the object in the object wrapper
-void *objwrapper_get_object(objwrapper_t *a_objwrapper);
+void Release( void * ptr );
 
-// retains the object inside a wrapper
-void objwrapper_retain(objwrapper_t *a_objwrapper);
-
-// releases the object inside a wrapper
-void objwrapper_release(objwrapper_t *a_objwrapper);
-
-struct objwrapper_s {
-    void                    *data;
-    unsigned                reference_count;
-    objwrapper_destructor_t destructor;
-};
+void * Share( void * ptr );
 
 #endif

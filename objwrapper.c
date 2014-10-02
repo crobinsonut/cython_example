@@ -1,36 +1,66 @@
+#include <assert.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "objwrapper.h"
 
-objwrapper_t *objwrapper_create(
-    void *a_data,
-    objwrapper_destructor_t a_destructor
-){
-    objwrapper_t * objwrapper = malloc(sizeof(objwrapper_t));
-    objwrapper->data = a_data;
-    objwrapper->destructor = a_destructor;
-    objwrapper->reference_count = 1;
+void * Alloc( size_t size )
+{
+    MemoryObject * o;
+    char         * ptr;
 
-    return objwrapper;
+    o              = ( MemoryObject * )calloc( sizeof( MemoryObject ) + size, 1 );
+    ptr            = ( char * )o;
+    ptr           += sizeof( MemoryObject );
+    o->retainCount = 1;
+    o->data        = ptr;
 
-}
-void * objwrapper_get_object(objwrapper_t *a_objwrapper){
-    return a_objwrapper->data;
+    return ( void * )ptr;
 }
 
-void objwrapper_retain(objwrapper_t *a_objwrapper){
-    a_objwrapper->reference_count += 1;
+void Retain( void * ptr )
+{
+    MemoryObject * o;
+    char         * cptr;
+
+    cptr  = ( char * )ptr;
+    cptr -= sizeof( MemoryObject );
+    o     = ( MemoryObject * )cptr;
+
+    o->retainCount++;
 }
 
-void objwrapper_release(objwrapper_t *a_objwrapper){
-    a_objwrapper->reference_count -= 1;
+void Release( void * ptr )
+{
+    MemoryObject * o;
+    char         * cptr;
 
-    if(a_objwrapper->reference_count == 0){
-        a_objwrapper->destructor(a_objwrapper->data);
+    cptr  = ( char * )ptr;
+    cptr -= sizeof( MemoryObject );
+    o     = ( MemoryObject * )cptr;
+
+    o->retainCount--;
+
+    if( o->retainCount == 0 )
+    {
+        free( o );
     }
+}
 
-    free(a_objwrapper);
+void * Share( void * ptr){
+    Retain(ptr);
+    return ptr;
 }
 
 void main(){
-    
+    int * int1;
+    int * int2;
+
+    int1 = (int *)Alloc(sizeof(int));
+    int2 = (int *)Share((void *)int1);
+
+    assert(*int1 == *int2);
+    assert(int1 == int2);
+
+    Release((void *)int1);
+    Release((void *)int2);
 }
