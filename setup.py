@@ -6,6 +6,6 @@ setup (
     ext_modules = cythonize([
         Extension("point", ["point.pyx"],
                   include_dirs=['.'],
-                  libraries=['point'],
+                  libraries=['point', 'objwrapper'],
                   library_dirs=['.'])])
 )

@@ -6,8 +6,7 @@ typedef struct{
     double y;
 } Point;
 
-Point * point_new(double x, double y);
 void point_free(Point * point);
-Point * scale(double s, Point * point);
+void scale(double s, Point * point);
 
 #endif
